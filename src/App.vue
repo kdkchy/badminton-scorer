@@ -8,12 +8,12 @@ import { RouterView } from "vue-router";
       <RouterView />
       <div class="fixed bottom-0 left-0 right-0 flex justify-center z-10">
         <div
-          class="card bg-base-100 w-full max-w-md py-4 text-center border-none rounded-none"
+          class="card bg-base-100 w-full max-w-md py-4 text-center order-b rounded-none"
         >
           <div class="flex justify-end space-x-5 items-center mr-5">
             <input
               type="checkbox"
-              value="synthwave"
+              value="abyss"
               className="toggle theme-controller"
             />
 
