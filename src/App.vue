@@ -3,7 +3,7 @@ import { RouterView } from "vue-router";
 </script>
 
 <template>
-  <div class="flex justify-center min-h-screen relative">
+  <div class="flex justify-center min-h-screen relative" data-theme="cupcake">
     <div class="w-full max-w-md shadow-lg min-h-screen">
       <RouterView />
       <div class="fixed bottom-0 left-0 right-0 flex justify-center z-10">
@@ -13,7 +13,7 @@ import { RouterView } from "vue-router";
           <div class="flex justify-end space-x-5 items-center mr-5">
             <input
               type="checkbox"
-              value="cupcake"
+              value="abyss"
               className="toggle theme-controller"
             />
 
