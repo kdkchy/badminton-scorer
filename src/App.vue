@@ -13,7 +13,7 @@ import { RouterView } from "vue-router";
           <div class="flex justify-end space-x-5 items-center mr-5">
             <input
               type="checkbox"
-              value="abyss"
+              value="cupcake"
               className="toggle theme-controller"
             />
 
