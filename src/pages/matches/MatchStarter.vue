@@ -25,7 +25,7 @@ function startMatch() {
 </script>
 
 <template>
-  <div class="flex flex-col items-center justify-center min-h-screenp-4">
+  <div class="flex flex-col items-center justify-center min-h-screen p-4">
     <!-- New button on top -->
     <button class="btn btn-primary mb-6">New</button>
 

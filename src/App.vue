@@ -11,6 +11,12 @@ import { RouterView } from "vue-router";
           class="card bg-base-100 w-full max-w-md py-4 text-center border-none rounded-none"
         >
           <div class="flex justify-end space-x-5 items-center mr-5">
+            <input
+              type="checkbox"
+              value="synthwave"
+              className="toggle theme-controller"
+            />
+
             <div class="flex justify-end">
               <router-link to="/">
                 <button class="btn">List</button>
