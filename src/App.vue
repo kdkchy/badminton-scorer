@@ -8,7 +8,7 @@ import { RouterView } from "vue-router";
       <RouterView />
       <div class="fixed bottom-0 left-0 right-0 flex justify-center z-10">
         <div
-          class="card w-full max-w-md py-4 text-center border-1 border-t rounded-none"
+          class="card bg-base-100 w-full max-w-md py-4 text-center border-1 border-t rounded-none"
         >
           <div class="flex justify-end space-x-5 items-center mr-5">
             <div class="flex justify-end">
