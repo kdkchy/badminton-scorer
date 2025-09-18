@@ -256,7 +256,7 @@ const games = ref([
         </div>
       </header>
 
-      <main class="p-4 space-y-4 pb-20">
+      <main class="p-4 space-y-4 pb-30">
         <div
           v-for="(game, i) in games"
           :key="i"
