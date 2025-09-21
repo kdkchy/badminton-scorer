@@ -1,20 +1,19 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-const games = ref([]);
-console.log(games);
+const games = ref<any[]>([]);
 onMounted(() => {
   const keys = Object.keys(localStorage).filter((key) =>
     key.startsWith("match_")
   );
 
-  // Load and parse each match data
+  // @ts-ignore
   games.value = keys.map((key) => {
-    const data = JSON.parse(localStorage.getItem(key));
+    const data = JSON.parse(localStorage.getItem(key) || "{}");
     return {
-      id: key.replace("match_", ""), // remove prefix for cleaner ID
+      id: key.replace("match_", ""),
       ...data,
     };
-  });
+  }) as any[];
 });
 </script>
 
