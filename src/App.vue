@@ -11,11 +11,11 @@ import { RouterView } from "vue-router";
           class="card bg-base-100 w-full max-w-md py-4 text-center order-b rounded-none"
         >
           <div class="flex justify-end space-x-5 items-center mr-5">
-            <input
+            <!-- <input
               type="checkbox"
               value="abyss"
               className="toggle theme-controller"
-            />
+            /> -->
 
             <div class="flex justify-end">
               <router-link to="/">

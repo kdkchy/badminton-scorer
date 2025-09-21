@@ -11,8 +11,13 @@ import MatchStarter from "@/pages/matches/MatchStarter.vue";
 
 const routes: RouteRecordRaw[] = [
   { path: "/", component: MatchList },
-  { path: "/:id/detail", component: MatchDetail },
-  { path: "/:id/play", component: MatchPlay },
+  {
+    path: "/:id/detail",
+    component: MatchDetail,
+    props: true,
+    name: "MatchDetail",
+  },
+  { path: "/:id/play", component: MatchPlay, props: true, name: "MatchPlay" },
   { path: "/starter", component: MatchStarter },
 ];
 

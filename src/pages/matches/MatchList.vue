@@ -1,248 +1,21 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
+const games = ref([]);
+console.log(games);
+onMounted(() => {
+  const keys = Object.keys(localStorage).filter((key) =>
+    key.startsWith("match_")
+  );
 
-const games = ref([
-  {
-    left: ["Skipper", "Rico"],
-    right: ["Kwalski", "Private"],
-    score: "19 - 21",
-  },
-  {
-    left: ["Skipper", "Rico"],
-    right: ["Kwalski", "Private"],
-    score: "24 - 26",
-  },
-  {
-    left: ["Skipper", "Rico"],
-    right: ["Kwalski", "Private"],
-    score: "18 - 21",
-  },
-  {
-    left: ["Skipper", "Rico"],
-    right: ["Kwalski", "Private"],
-    score: "22 - 20",
-  },
-  {
-    left: ["Skipper", "Rico"],
-    right: ["Kwalski", "Private"],
-    score: "19 - 17",
-  },
-  {
-    left: ["Skipper", "Rico"],
-    right: ["Kwalski", "Private"],
-    score: "15 - 21",
-  },
-  {
-    left: ["Skipper", "Rico"],
-    right: ["Kwalski", "Private"],
-    score: "25 - 23",
-  },
-  {
-    left: ["Skipper", "Rico"],
-    right: ["Kwalski", "Private"],
-    score: "26 - 28",
-  },
-  {
-    left: ["Skipper", "Rico"],
-    right: ["Kwalski", "Private"],
-    score: "19 - 21",
-  },
-  {
-    left: ["Skipper", "Rico"],
-    right: ["Kwalski", "Private"],
-    score: "24 - 26",
-  },
-  {
-    left: ["Skipper", "Rico"],
-    right: ["Kwalski", "Private"],
-    score: "18 - 21",
-  },
-  {
-    left: ["Skipper", "Rico"],
-    right: ["Kwalski", "Private"],
-    score: "22 - 20",
-  },
-  {
-    left: ["Skipper", "Rico"],
-    right: ["Kwalski", "Private"],
-    score: "19 - 17",
-  },
-  {
-    left: ["Skipper", "Rico"],
-    right: ["Kwalski", "Private"],
-    score: "15 - 21",
-  },
-  {
-    left: ["Skipper", "Rico"],
-    right: ["Kwalski", "Private"],
-    score: "25 - 23",
-  },
-  {
-    left: ["Skipper", "Rico"],
-    right: ["Kwalski", "Private"],
-    score: "26 - 28",
-  },
-  {
-    left: ["Skipper", "Rico"],
-    right: ["Kwalski", "Private"],
-    score: "19 - 21",
-  },
-  {
-    left: ["Skipper", "Rico"],
-    right: ["Kwalski", "Private"],
-    score: "24 - 26",
-  },
-  {
-    left: ["Skipper", "Rico"],
-    right: ["Kwalski", "Private"],
-    score: "18 - 21",
-  },
-  {
-    left: ["Skipper", "Rico"],
-    right: ["Kwalski", "Private"],
-    score: "22 - 20",
-  },
-  {
-    left: ["Skipper", "Rico"],
-    right: ["Kwalski", "Private"],
-    score: "19 - 17",
-  },
-  {
-    left: ["Skipper", "Rico"],
-    right: ["Kwalski", "Private"],
-    score: "15 - 21",
-  },
-  {
-    left: ["Skipper", "Rico"],
-    right: ["Kwalski", "Private"],
-    score: "25 - 23",
-  },
-  {
-    left: ["Skipper", "Rico"],
-    right: ["Kwalski", "Private"],
-    score: "26 - 28",
-  },
-  {
-    left: ["Skipper", "Rico"],
-    right: ["Kwalski", "Private"],
-    score: "19 - 21",
-  },
-  {
-    left: ["Skipper", "Rico"],
-    right: ["Kwalski", "Private"],
-    score: "24 - 26",
-  },
-  {
-    left: ["Skipper", "Rico"],
-    right: ["Kwalski", "Private"],
-    score: "18 - 21",
-  },
-  {
-    left: ["Skipper", "Rico"],
-    right: ["Kwalski", "Private"],
-    score: "22 - 20",
-  },
-  {
-    left: ["Skipper", "Rico"],
-    right: ["Kwalski", "Private"],
-    score: "19 - 17",
-  },
-  {
-    left: ["Skipper", "Rico"],
-    right: ["Kwalski", "Private"],
-    score: "15 - 21",
-  },
-  {
-    left: ["Skipper", "Rico"],
-    right: ["Kwalski", "Private"],
-    score: "25 - 23",
-  },
-  {
-    left: ["Skipper", "Rico"],
-    right: ["Kwalski", "Private"],
-    score: "26 - 28",
-  },
-  {
-    left: ["Skipper", "Rico"],
-    right: ["Kwalski", "Private"],
-    score: "19 - 21",
-  },
-  {
-    left: ["Skipper", "Rico"],
-    right: ["Kwalski", "Private"],
-    score: "24 - 26",
-  },
-  {
-    left: ["Skipper", "Rico"],
-    right: ["Kwalski", "Private"],
-    score: "18 - 21",
-  },
-  {
-    left: ["Skipper", "Rico"],
-    right: ["Kwalski", "Private"],
-    score: "22 - 20",
-  },
-  {
-    left: ["Skipper", "Rico"],
-    right: ["Kwalski", "Private"],
-    score: "19 - 17",
-  },
-  {
-    left: ["Skipper", "Rico"],
-    right: ["Kwalski", "Private"],
-    score: "15 - 21",
-  },
-  {
-    left: ["Skipper", "Rico"],
-    right: ["Kwalski", "Private"],
-    score: "25 - 23",
-  },
-  {
-    left: ["Skipper", "Rico"],
-    right: ["Kwalski", "Private"],
-    score: "26 - 28",
-  },
-  {
-    left: ["Skipper", "Rico"],
-    right: ["Kwalski", "Private"],
-    score: "19 - 21",
-  },
-  {
-    left: ["Skipper", "Rico"],
-    right: ["Kwalski", "Private"],
-    score: "24 - 26",
-  },
-  {
-    left: ["Skipper", "Rico"],
-    right: ["Kwalski", "Private"],
-    score: "18 - 21",
-  },
-  {
-    left: ["Skipper", "Rico"],
-    right: ["Kwalski", "Private"],
-    score: "22 - 20",
-  },
-  {
-    left: ["Skipper", "Rico"],
-    right: ["Kwalski", "Private"],
-    score: "19 - 17",
-  },
-  {
-    left: ["Skipper", "Rico"],
-    right: ["Kwalski", "Private"],
-    score: "15 - 21",
-  },
-  {
-    left: ["Skipper", "Rico"],
-    right: ["Kwalski", "Private"],
-    score: "25 - 23",
-  },
-  {
-    left: ["Skipper", "Rico"],
-    right: ["Kwalski", "Private"],
-    score: "26 - 28",
-  },
-]);
+  // Load and parse each match data
+  games.value = keys.map((key) => {
+    const data = JSON.parse(localStorage.getItem(key));
+    return {
+      id: key.replace("match_", ""), // remove prefix for cleaner ID
+      ...data,
+    };
+  });
+});
 </script>
 
 <template>
@@ -265,24 +38,22 @@ const games = ref([
           <div class="card-body grid grid-cols-3 items-center gap-3">
             <div class="text-center">
               <div class="badge badge-accent block mx-auto mb-1">
-                {{ game.left[0] }}
-              </div>
-              <div class="badge badge-accent block mx-auto">
-                {{ game.left[1] }}
+                {{ game.left }}
               </div>
             </div>
             <div class="text-center font-bold text-xl">
-              {{ game.score }}
+              {{ game.leftScore }} -
+              {{ game.rightScore }}
             </div>
             <div class="text-center">
               <div class="badge badge-accent block mx-auto mb-1">
-                {{ game.right[0] }}
-              </div>
-              <div class="badge badge-accent block mx-auto">
-                {{ game.right[1] }}
+                {{ game.right }}
               </div>
             </div>
           </div>
+          <span class="text-center pb-2 text-xs text-primary">{{
+            game.id
+          }}</span>
         </div>
       </main>
     </div>

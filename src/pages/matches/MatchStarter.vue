@@ -1,62 +1,95 @@
 <script setup>
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 // players state
 const left = ref(["", ""]);
 const right = ref(["", ""]);
 
-function addPlayer(side, index) {
-  const name = prompt("Enter player name:");
-  if (name) {
-    if (side === "left") {
-      left.value[index] = name;
-    } else {
-      right.value[index] = name;
-    }
+// temporary state for modal
+const currentSide = ref(null);
+const currentIndex = ref(null);
+const newPlayer = ref("");
+
+function addPlayerModal(side, index) {
+  currentSide.value = side;
+  currentIndex.value = index;
+  newPlayer.value = "";
+
+  document.getElementById("add_player").showModal();
+}
+
+function addPlayer() {
+  if (currentSide.value === "left") {
+    left.value[currentIndex.value] = newPlayer.value;
+  } else if (currentSide.value === "right") {
+    right.value[currentIndex.value] = newPlayer.value;
   }
+  document.getElementById("add_player").close();
 }
 
 function startMatch() {
-  console.log({
-    left: left.value,
-    right: right.value,
-  });
+  const matchId = "match_" + Date.now();
+  localStorage.setItem(
+    matchId,
+    JSON.stringify({
+      left: left.value.join(" / "),
+      right: right.value.join(" / "),
+    })
+  );
+
+  router.push({ name: "MatchPlay", params: { id: matchId } });
 }
 </script>
 
 <template>
   <div class="flex flex-col items-center justify-center min-h-screen p-4">
-    <!-- New button on top -->
-    <button class="btn btn-primary mb-6">New</button>
+    <p class="mb-5 text-xl">New Match</p>
 
-    <!-- Players grid -->
     <div class="grid grid-cols-2 gap-6 mb-6">
-      <!-- Left side -->
       <div class="flex flex-col space-y-4">
         <button
           v-for="(player, i) in left"
           :key="'left-' + i"
           class="btn w-32"
-          @click="addPlayer('left', i)"
+          @click="addPlayerModal('left', i)"
         >
           {{ player || "+" }}
         </button>
       </div>
 
-      <!-- Right side -->
       <div class="flex flex-col space-y-4">
         <button
           v-for="(player, i) in right"
           :key="'right-' + i"
           class="btn w-32"
-          @click="addPlayer('right', i)"
+          @click="addPlayerModal('right', i)"
         >
           {{ player || "+" }}
         </button>
       </div>
     </div>
-
-    <!-- Start button -->
     <button class="btn btn-success w-40" @click="startMatch">Start</button>
   </div>
+
+  <dialog id="add_player" class="modal">
+    <div class="modal-box">
+      <h3 class="font-bold text-lg">Add Player</h3>
+      <input
+        v-model="newPlayer"
+        type="text"
+        placeholder="Enter player name"
+        class="input input-bordered w-full my-4"
+      />
+      <div class="modal-action">
+        <form method="dialog" class="space-x-4">
+          <button class="btn">Cancel</button>
+          <button type="button" class="btn btn-primary" @click="addPlayer">
+            Add
+          </button>
+        </form>
+      </div>
+    </div>
+  </dialog>
 </template>
