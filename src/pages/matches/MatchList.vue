@@ -1,19 +1,15 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-const games = ref<any[]>([]);
-onMounted(() => {
-  const keys = Object.keys(localStorage).filter((key) =>
-    key.startsWith("match_")
-  );
+import { db } from "@/firebase";
+import { collection, getDocs } from "firebase/firestore";
 
-  // @ts-ignore
-  games.value = keys.map((key) => {
-    const data = JSON.parse(localStorage.getItem(key) || "{}");
-    return {
-      id: key.replace("match_", ""),
-      ...data,
-    };
-  }) as any[];
+const games = ref<any[]>([]);
+onMounted(async () => {
+  const querySnapshot = await getDocs(collection(db, "games"));
+  games.value = querySnapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
 });
 </script>
 
@@ -29,30 +25,34 @@ onMounted(() => {
       </header>
 
       <main class="p-4 space-y-4 pb-30">
+        <div v-if="games.length == 0">
+          <p>No data recorded</p>
+        </div>
         <div
           v-for="(game, i) in games"
           :key="i"
           class="card border-1 border-purple-200"
         >
-          <div class="card-body grid grid-cols-3 items-center gap-3">
-            <div class="text-center">
-              <div class="badge badge-accent block mx-auto mb-1">
-                {{ game.left }}
+          <router-link :to="game.id + '/detail'">
+            <div>
+              <div class="card-body grid grid-cols-3 items-center gap-3">
+                <div class="text-center">
+                  <div class="badge badge-accent block mx-auto mb-1">
+                    {{ game.left }}
+                  </div>
+                </div>
+                <div class="text-center font-bold text-xl">
+                  {{ game.leftScore }} -
+                  {{ game.rightScore }}
+                </div>
+                <div class="text-center">
+                  <div class="badge badge-accent block mx-auto mb-1">
+                    {{ game.right }}
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="text-center font-bold text-xl">
-              {{ game.leftScore }} -
-              {{ game.rightScore }}
-            </div>
-            <div class="text-center">
-              <div class="badge badge-accent block mx-auto mb-1">
-                {{ game.right }}
-              </div>
-            </div>
-          </div>
-          <span class="text-center pb-2 text-xs text-primary">{{
-            game.id
-          }}</span>
+          </router-link>
         </div>
       </main>
     </div>

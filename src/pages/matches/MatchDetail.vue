@@ -1,21 +1,15 @@
 <script setup>
 import { ref, onMounted, computed } from "vue";
 import { useRoute } from "vue-router";
+import { getMatchById } from "@/api/getMatchDetail";
 
 const route = useRoute();
 const matchId = route.params.id;
 
 const matchData = ref(null);
-
-onMounted(() => {
-  const saved = localStorage.getItem(matchId);
-  if (saved) {
-    matchData.value = JSON.parse(saved);
-    console.log(matchData.value);
-  }
+onMounted(async () => {
+  matchData.value = await getMatchById(matchId);
 });
-
-///
 
 // chart config
 const leftScores = computed(() =>
@@ -71,14 +65,14 @@ function getPoints(data) {
     <div v-if="matchData">
       <div class="flex items-center justify-center space-x-10 mb-10">
         <div
-          class="card bg-base-100 shadow-sm w-30 h-40 flex flex-col items-center justify-center cursor-pointer"
+          class="text-white card bg-blue-500 shadow-sm w-30 h-40 flex flex-col items-center justify-center cursor-pointer"
         >
           <div class="text-5xl font-bold">{{ matchData.leftScore }}</div>
           <div class="text-sm mt-2">{{ matchData.left }}</div>
         </div>
         <div class="text-xl">&lt;&gt;</div>
         <div
-          class="card bg-base-100 shadow-sm w-30 h-40 flex flex-col items-center justify-center cursor-pointer"
+          class="text-white card bg-red-500 shadow-sm w-30 h-40 flex flex-col items-center justify-center cursor-pointer"
         >
           <div class="text-5xl font-bold">{{ matchData.rightScore }}</div>
           <div class="text-sm mt-2">{{ matchData.right }}</div>
@@ -89,12 +83,12 @@ function getPoints(data) {
         <div class="flex gap-2">
           <div class="flex flex-col items-center">
             <div
-              class="w-20 h-8 border-1 border-primary rounded mb-2 flex items-center justify-center text-xs"
+              class="border-blue-500 w-20 h-8 border-1 rounded mb-2 flex items-center justify-center text-xs"
             >
               {{ matchData.left }}
             </div>
             <div
-              class="w-20 h-8 border-1 border-primary rounded mb-2 flex items-center justify-center text-xs"
+              class="border-red-500 w-20 h-8 border-1 rounded mb-2 flex items-center justify-center text-xs"
             >
               {{ matchData.right }}
             </div>
@@ -139,15 +133,11 @@ function getPoints(data) {
           <span class="text-lg mb-2">Rally Length</span>
           <div class="flex items-center space-x-2">
             <div
-              class="w-8 h-8 border-b-1 border-primary mb-2 flex items-center justify-center text-xs"
-            >
-              L
-            </div>
+              class="bg-blue-500 text-white w-8 h-8 border-b-1 border-primary mb-2 flex items-center justify-center text-xs"
+            ></div>
             <div
-              class="w-8 h-8 border-b-1 border-primary mb-2 flex items-center justify-center text-xs"
-            >
-              R
-            </div>
+              class="bg-red-500 text-white w-8 h-8 border-b-1 border-primary mb-2 flex items-center justify-center text-xs"
+            ></div>
             <div
               class="w-8 h-8 border-b-1 border-primary mb-2 flex items-center justify-center text-xs"
             >
@@ -201,8 +191,10 @@ function getPoints(data) {
       <div class="mt-5 card bg-base-100 shadow-sm">
         <div class="card-body">
           <span class="text-lg mb-2">Point Rush</span>
-          <div class="badge bg-blue-500">{{ matchData.left }}</div>
-          <div class="badge bg-red-500">{{ matchData.right }}</div>
+          <div class="flex justify-center">
+            <div class="badge bg-blue-500 text-white">{{ matchData.left }}</div>
+            <div class="badge bg-red-500 text-white">{{ matchData.right }}</div>
+          </div>
           <!-- scrollable wrapper -->
           <div class="py-2 overflow-x-auto w-full">
             <svg

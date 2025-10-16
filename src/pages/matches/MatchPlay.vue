@@ -1,10 +1,14 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { getMatchById } from "@/api/getMatchDetail";
+import { addMatchResult } from "@/api/addMatchResult";
 
 const router = useRouter();
 const route = useRoute();
 const matchId = route.params.id;
+
+const matchData = ref(null);
 
 // counters
 const leftScore = ref(0);
@@ -15,27 +19,20 @@ const rightPlayers = ref("");
 const scores = ref([]);
 const longestRally = ref(0);
 
-onMounted(() => {
-  const saved = localStorage.getItem(matchId);
-  if (saved) {
-    const data = JSON.parse(saved);
-    leftPlayers.value = data.left;
-    rightPlayers.value = data.right;
-  }
+onMounted(async () => {
+  matchData.value = await getMatchById(matchId);
+  leftPlayers.value = matchData.value.left;
+  rightPlayers.value = matchData.value.right;
 });
 
-function saveGame() {
-  localStorage.setItem(
-    matchId,
-    JSON.stringify({
-      left: leftPlayers.value,
-      right: rightPlayers.value,
-      leftScore: leftScore.value,
-      rightScore: rightScore.value,
-      scores: scores.value,
-    })
-  );
-}
+// onMounted(() => {
+//   const saved = localStorage.getItem(matchId);
+//   if (saved) {
+//     const data = JSON.parse(saved);
+//     leftPlayers.value = data.left;
+//     rightPlayers.value = data.right;
+//   }
+// });
 
 function incrementLeft() {
   const newLeft = leftScore.value + 1;
@@ -85,7 +82,11 @@ function incrementRally() {
   rally.value++;
 }
 
-function finishGame() {
+function decrementRally() {
+  rally.value--;
+}
+
+async function finishGame() {
   const finalData = {
     left: leftPlayers.value,
     right: rightPlayers.value,
@@ -96,15 +97,16 @@ function finishGame() {
     finishedAt: new Date().toISOString(),
   };
 
-  localStorage.setItem(matchId, JSON.stringify(finalData));
+  await addMatchResult(matchId, finalData);
   router.push({ name: "MatchDetail", params: { id: matchId } });
 }
 </script>
 
 <template>
   <div class="flex flex-col items-center justify-between h-screen pb-30 px-5">
-    <div class="flex w-full justify-between mb-6"></div>
-
+    <div class="flex flex-col items-center justify-between mt-10">
+      <button class="btn" @click="finishGame">Finish</button>
+    </div>
     <div class="flex items-center justify-center space-x-10">
       <div
         class="card bg-base-100 shadow-sm w-30 h-60 flex flex-col items-center justify-center cursor-pointer"
@@ -122,11 +124,10 @@ function finishGame() {
         <div class="text-sm mt-2">{{ rightPlayers }}</div>
       </div>
     </div>
-
-    <div class="flex space-x-6 mt-6">
-      <button class="btn" @click="finishGame">Finish</button>
-      <button class="btn btn-accent" @click="incrementRally">
-        Rally ({{ rally }})
+    <div class="w-full flex justify-center space-x-3">
+      <button class="btn h-15" @click="decrementRally">Rally (-)</button>
+      <button class="btn btn-accent btn-wide h-50" @click="incrementRally">
+        <span class="text-2xl">Rally ({{ rally }})</span>
       </button>
     </div>
   </div>

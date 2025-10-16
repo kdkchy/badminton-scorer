@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import { addMatch } from "@/api/addMatch";
 
 const router = useRouter();
 // players state
@@ -29,17 +30,18 @@ function addPlayer() {
   document.getElementById("add_player").close();
 }
 
-function startMatch() {
-  const matchId = "match_" + Date.now();
-  localStorage.setItem(
-    matchId,
-    JSON.stringify({
-      left: left.value.join(" / "),
-      right: right.value.join(" / "),
-    })
-  );
+async function startMatch() {
+  const leftPlayer =
+    left.value[1] == "" ? left.value[0] : left.value.join(" / ");
+  const rightPlayer =
+    right.value[1] == "" ? right.value[0] : right.value.join(" / ");
 
-  router.push({ name: "MatchPlay", params: { id: matchId } });
+  const docRef = await addMatch({
+    left: leftPlayer,
+    right: rightPlayer,
+  });
+
+  router.push({ name: "MatchPlay", params: { id: docRef } });
 }
 </script>
 
